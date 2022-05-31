@@ -1,0 +1,38 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <math.h>
+#include <time.h>
+
+long long unsigned int *gprime(int *nprime,long long unsigned int num  ){
+
+	long long unsigned int *vec = malloc( sizeof(long long unsigned int ) * (num/2) );
+	int i = 3,j,k,npr = 1;
+	vec[0] = 3;
+	
+	up:
+	i += 2;
+	for(;i < num;i += 2){
+       k = sqrt(i);
+		for(j = 0;vec[j] <  k;++j){
+			if( !(i % vec[j])){ goto up; }
+		}
+		vec[npr++] = i;
+	}
+    *nprime = npr;
+	return vec;
+}
+
+int main(/*int arg,char ** argv*/){
+
+	//int num = sscanf(argv[1]," %d",&num);
+    //printf("%d\n",num);
+	long long unsigned int num = 99999;
+    clock_t start = clock();
+    int numprim;
+	long long unsigned int * vec = gprime(&numprim,num);
+	clock_t end = clock();
+	float seconds = (float)(end - start) / CLOCKS_PER_SEC;
+	
+	for(int i = 0;i < numprim;i++){ printf("%lld\n",vec[i]); }
+	printf("TIME:%f\n",seconds);
+}
